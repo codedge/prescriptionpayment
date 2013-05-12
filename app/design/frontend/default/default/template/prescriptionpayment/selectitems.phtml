@@ -106,7 +106,7 @@
         <div class="col2-set">
             <div class="block block-prescriptionpayment hint">
                 <div class="block-title">
-                    <h3><strong>Hinweis zur Rezeptbezahlung</strong></h3>
+                    <h3><strong><?php echo $this->__('Notice') ?></strong></h3>
                 </div>
                 <div class="block-content">
                     <p class="empty">
@@ -115,7 +115,7 @@
                         </strong><br />
                         <?php echo nl2br(Mage::getStoreConfig('general/store_information/address')); ?>
                         <br /><br />
-                        Der Versand kann erst erfolgen, wenn das Rezept sowie der zu zahlende Restbetrag bei uns eingegangen ist.
+                        <?php echo $this->__('Delivery essentially only takes place after your prescriptions and payment is received') ?>.
                     </p>
                 </div>
             </div>
