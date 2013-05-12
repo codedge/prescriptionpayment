@@ -3,6 +3,9 @@
 This is a payment method extension for the ecommerce platform [Magento](http://www.magentocommerce.com/).
 Use it preferably if you maintain a shop for medical things where it should be possible to pay via a prescription.
 
+It enables the shop owner to let the customer select which items shall be paid via a prescription. Those items value will be set to 0.00. All other items can be paid via
+other payment methods (f. ex. PayPal).
+
 ## Requirements
 * Magento CE 1.7
 * jQuery (>=1.6 should work, tested with 1.8 - for getting some UI improvements in the frontend)
