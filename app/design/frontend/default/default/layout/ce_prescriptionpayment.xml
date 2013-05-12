@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <prescriptionpayment_items_select>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="prescriptionpayment/items" name="prescriptionpayment_items_select" template="prescriptionpayment/selectitems.phtml">
+                <action method="setCartTemplate"><value>prescriptionpayment/selectitems.phtml</value></action>
+                <action method="chooseTemplate"/>
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>prescriptionpayment/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>prescriptionpayment/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>prescriptionpayment/item/default.phtml</template></action>
+                <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods" translate="label">
+                    <label>Payment Methods Before Checkout Button</label>
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="prescriptionpayment/onepage_link.phtml"/>
+                </block>
+                <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
+                    <label>Shopping Cart Form Before</label>
+                </block>
+                <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
+                    <label>Payment Methods After Checkout Button</label>
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="prescriptionpayment/onepage_link.phtml"/>
+                    <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+                </block>
+                <block type="prescriptionpayment/items" name="prescriptionpayment.choose.payment" as="choosepayment" template="prescriptionpayment/choose_payment.phtml" />
+            </block>
+        </reference>
+    </prescriptionpayment_items_select>
+</layout>

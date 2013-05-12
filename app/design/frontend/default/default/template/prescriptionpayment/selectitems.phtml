@@ -1,0 +1,149 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @package    Ce_PrescriptionPayment
+ * @copyright  Copyright (c) 2013 codedge (http://www.codedge.de)
+ * @author     Holger Lösken <post@codedge.de>
+*/
+
+/**
+ * Shopping cart template
+ *
+ * @see Ce_PrescriptionPayment_Block_Items
+ */
+?>
+<div class="cart">
+    <div class="page-title title-buttons">
+        <h1><?php echo $this->__('Choose your products for prescription payment') ?></h1>
+        <?php if(!$this->hasError()): ?>
+        <ul class="checkout-types">
+        <?php foreach ($this->getMethods('top_methods') as $method): ?>
+            <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+            <li><?php echo $methodHtml; ?></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+    </div>
+    <div class="block">
+        <p class="empty">
+            <?php echo $this->__('For the following articles it is possible to pay them by prescription') ?>.
+        </p>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form name="prescriptionpayment-form" id="prescriptionpayment-form" action="<?php echo $this->getUrl('checkout/onepage') ?>" method="post">
+        <?php echo $this->getChildHtml('choosepayment') ?>
+        <fieldset>
+            <table id="shopping-cart-table" class="data-table cart-table">
+                <col width="1" />
+                <col />
+                <col width="1" />
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+                <col width="1" />
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                <col width="1" />
+            <?php endif; ?>
+                <col width="1" />
+
+            <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                <thead>
+                    <tr>
+                        <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+                        <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Prescription Payment') ?></th>
+
+                    </tr>
+                    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <tr>
+                        <th class="a-right"><?php echo $this->__('Excl. %s Tax', '19%') ?></th>
+                        <th><?php echo $this->__('Incl. %s Tax', '19%') ?></th>
+                        <th class="a-right"><?php echo $this->__('Excl. %s Tax', '19%') ?></th>
+                        <th><?php echo $this->__('Incl. %s Tax', '19%') ?></th>
+                    </tr>
+                    <?php endif; ?>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="50" class="a-right">
+                            <button type="button" title="<?php echo $this->__('Back to shopping cart') ?>" class="button btn-continue" onclick="setLocation('<?php echo Mage::getUrl('checkout/cart') ?>')"><span><span><?php echo $this->__('Back to shopping cart') ?></span></span></button>
+                            <button type="button" class="button btn-update" title="<?php echo $this->__('Select all items for prescription payment'); ?>" name="select_all_prescription" ><span><?php echo $this->__('Select all'); ?></span></button>
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                <?php foreach($this->getItems() as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+            <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+        </fieldset>
+    </form>
+    <div class="cart-collaterals">
+        <div class="col2-set">
+            <div class="block block-prescriptionpayment">
+                <div class="block-title">
+                    <h3><strong>Hinweis zur Rezeptbezahlung</strong></h3>
+                </div>
+                <div class="block-content">
+                    <p class="empty">
+                        <strong>
+                            <?php echo $this->__('Please send the prescriptions for the selected items to the following address') ?>:
+                        </strong><br />
+                        <?php echo nl2br(Mage::getStoreConfig('general/store_information/address')); ?>
+                        <br /><br />
+                        Der Versand kann erst erfolgen, wenn das Rezept sowie der zu zahlende Restbetrag bei uns eingegangen ist.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        // Check radio buttons after load
+        if(jQuery("input[name='prescriptionpayment_choose_payment']:checked").val() == 0) {
+            jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'none');
+        } else {
+            jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'block');
+        }
+        
+        jQuery("input[name='prescriptionpayment_choose_payment']").click(function() {
+            if(jQuery(this).val() == 0) {
+                jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'none');
+            } else {
+                jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'block');
+            }
+        });
+        
+        // Select all items
+        jQuery("button[name='select_all_prescription']").click(function() {
+            jQuery('#prescriptionpayment-form').find(':checkbox').each(function () {
+                jQuery(this).prop('checked', 'checked');
+            });
+        });
+    });
+</script>
