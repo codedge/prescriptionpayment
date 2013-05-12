@@ -1,0 +1,16 @@
+{
+    "name": "codedge/prescriptionpayment",
+    "license": "OSL-3.0",
+    "type": "magento-module",
+    "description": "Magento payment method for prescriptions",
+    "homepage": "https://github.com/codedge/prescriptionpayment",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "authors":[
+        {
+            "name":"Holger Lösken",
+            "email":"post@codedge.de"
+        }
+    ]
+}
