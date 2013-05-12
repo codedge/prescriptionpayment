@@ -1,0 +1,7 @@
+app/etc/modules/Ce_PrescriptionPayment.xml                              app/etc/modules/Ce_PrescriptionPayment.xml
+app/code/community/Ce/PrescriptionPayment/                              app/code/community/Ce/PrescriptionPayment/
+app/design/adminhtml/default/default/layout/ce_prescriptionpayment.xml  app/design/adminhtml/default/default/layout/ce_prescriptionpayment.xml
+app/design/adminhtml/default/default/template/prescriptionpayment/      app/design/adminhtml/default/default/template/prescriptionpayment/
+app/design/frontend/default/default/layout/ce_prescriptionpayment.xml   app/design/frontend/default/default/layout/ce_prescriptionpayment.xml
+app/design/frontend/default/default/template/prescriptionpayment/       app/design/frontend/default/default/template/prescriptionpayment/
+app/locale/de_DE/Ce_PrescriptionPayment.csv                             app/locale/de_DE/Ce_PrescriptionPayment.csv
