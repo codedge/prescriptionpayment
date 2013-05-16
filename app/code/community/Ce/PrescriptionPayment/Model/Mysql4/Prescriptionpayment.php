@@ -15,25 +15,12 @@
  * @package    Ce_PrescriptionPayment
  * @copyright  Copyright (c) 2013 codedge (http://www.codedge.de)
  * @author     Holger Lösken <post@codedge.de>
-*/
+ */
 
-class Ce_PrescriptionPayment_Helper_Data extends Mage_Core_Helper_Abstract
+class Ce_PrescriptionPayment_Model_Mysql4_Prescriptionpayment extends Mage_Core_Model_Mysql4_Abstract
 {
-    /**
-     * Check if customer wants to pay by prescription
-     * @return boolean
-     */
-    public static function payByPrescription()
+    public function _construct()
     {
-        $v = Mage::app()->getRequest()->getParam('prescriptionpayment_choose_payment');
-
-        if((Mage::getSingleton('checkout/session')->getPayByPrescription() != 0
-            && !empty($v))
-        || !empty($v)
-        ) {
-            return true;
-        }
-        
-        return false;
+        $this->_init('prescriptionpayment/prescriptionpayment', 'id');
     }
 }

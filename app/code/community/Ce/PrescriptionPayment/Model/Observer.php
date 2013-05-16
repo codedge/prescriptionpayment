@@ -60,7 +60,7 @@ class Ce_PrescriptionPayment_Model_Observer
         if($this->attributeMinTotal > $cartTotal
         || ($this->attributeMaxTotal < $cartTotal
             && !empty($this->attributeMaxTotal))
-        || Mage::app()->getRequest()->getParam('proceedtocheckout')
+        || Mage::app()->getRequest()->getParam('proceedtocheckout') == 1
         ){
             if(Mage::app()->getRequest()->getParam('proceedtocheckout')) {
                 if(Ce_PrescriptionPayment_Helper_Data::payByPrescription()) {
@@ -92,6 +92,25 @@ class Ce_PrescriptionPayment_Model_Observer
         if(Mage::getSingleton('checkout/session')->getPayByPrescription() == 1) {
             $this->setCartItemsPriceToOriginalPrice();
         }
+    }
+
+    /**
+     * Save the uploaded prescriptions to database
+     * @param Varien_Event_Observer $observer
+     * @return boolean|mixed If nothing to do, it fires false
+     */
+    public function saveUploadedPrescriptions($observer)
+    {
+        if(Mage::getSingleton('prescriptionpayment/prescriptionpayment')->useUploader()) {
+            $model = Mage::getSingleton('prescriptionpayment/prescriptionpayment');
+            $files = $model->getUploadedFiles();
+
+            foreach($files as $file) {
+
+            }
+        }
+
+        return false;
     }
 
 

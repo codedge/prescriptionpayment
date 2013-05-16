@@ -45,6 +45,29 @@ class Ce_PrescriptionPayment_Model_Prescriptionpayment
      */
     protected $_useConfigurableProductSetting;
 
+    /**
+     * Use the uploader in frontend
+     * @var string
+     */
+    protected $_useUploader;
+
+    /**
+     * Path where uploads are saved
+     * @var string
+     */
+    protected $_uploaderPath;
+
+    /**
+     * Allowed file types for upload
+     * @var string
+     */
+    protected $_allowedFileTypes;
+
+    /**
+     * Files that has been uploaded
+     * @var array()
+     */
+    protected $_filesUploaded;
 
     /**
      * Constructor of the class
@@ -55,6 +78,9 @@ class Ce_PrescriptionPayment_Model_Prescriptionpayment
         $this->_isEnabled = Mage::getStoreConfig('payment/prescriptionpayment/active');
         $this->_attributeCode = Mage::getStoreConfig('payment/prescriptionpayment/attribute_code');
         $this->_useConfigurableProductSetting = Mage::getStoreConfig('payment/prescriptionpayment/use_configurable_product');
+        $this->_useUploader = Mage::getStoreConfig('payment/prescriptionpayment/use_uploader');
+        $this->_allowedFileTypes = Mage::getStoreConfig('payment/prescriptionpayment/uploader_file_extensions');
+        $this->_uploaderPath = Mage::getBaseDir('media') . DS . 'prescriptionpayment' . DS;
     }
 
     /**
@@ -119,5 +145,66 @@ class Ce_PrescriptionPayment_Model_Prescriptionpayment
     public function getAttributeCode()
     {
         return $this->_attributeCode;
+    }
+
+    /**
+     * Get the setting if uploader should be used
+     * @return boolean
+     */
+    public function useUploader()
+    {
+        return filter_var($this->_useUploader, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Get the uploader path
+     * @return string
+     */
+    public function getUploaderPath()
+    {
+        return $this->_uploaderPath;
+    }
+
+    /**
+     * Get allowed file types as text
+     * @return string
+     */
+    public function getAllowedFileTypesAsText()
+    {
+        return (string)$this->_allowedFileTypes;
+    }
+
+    /**
+     * Get allowed uploader file types as array
+     * @return array
+     */
+    public function getAllowedFilesTypesAsArray()
+    {
+        $fTypesArr = array();
+
+        if(!empty($this->_allowedFileTypes)) {
+            $fTypesArr = preg_split('/[,;]/', $this->_allowedFileTypes);
+        }
+
+        return $fTypesArr;
+    }
+
+    /**
+     * Add an uploaded file to array
+     * @param string filename
+     * @return void
+     */
+    public function addUploadedFile($fileName)
+    {
+        $this->_filesUploaded[] = $fileName;
+    }
+
+    /**
+     * Get all files that have been uploaded
+     * @return array
+     */
+    public function getUploadedFiles()
+    {
+        return $this->_filesUploaded;
     }
 }

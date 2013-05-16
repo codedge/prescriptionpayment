@@ -5,3 +5,7 @@ app/design/adminhtml/default/default/template/prescriptionpayment/      app/desi
 app/design/frontend/default/default/layout/ce_prescriptionpayment.xml   app/design/frontend/default/default/layout/ce_prescriptionpayment.xml
 app/design/frontend/default/default/template/prescriptionpayment/       app/design/frontend/default/default/template/prescriptionpayment/
 app/locale/de_DE/Ce_PrescriptionPayment.csv                             app/locale/de_DE/Ce_PrescriptionPayment.csv
+skin/frontend/default/default/js/jquery-1.8.3.min.js                    skin/frontend/default/default/js/jquery-1.8.3.min.js
+skin/frontend/default/default/js/jquery-noconflict.js                   skin/frontend/default/default/js/jquery-noconflict.js
+skin/frontend/default/default/js/prescriptionpayment/                   skin/frontend/default/default/js/prescriptionpayment/
+skin/frontend/default/default/css/prescriptionpayment/                  skin/frontend/default/default/css/prescriptionpayment/

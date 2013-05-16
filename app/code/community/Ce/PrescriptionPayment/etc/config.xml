@@ -2,14 +2,23 @@
 <config>
     <modules>
         <Ce_PrescriptionPayment>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </Ce_PrescriptionPayment>
     </modules>
     <global>
         <models>
             <prescriptionpayment>
                 <class>Ce_PrescriptionPayment_Model</class>
+                <resourceModel>prescriptionpayment_mysql4</resourceModel>
             </prescriptionpayment>
+            <prescriptionpayment_mysql4>
+                <class>Ce_PrescriptionPayment_Model_Mysql4</class>
+                <entities>
+                    <prescriptionpayment>
+                        <table>prescriptionpayment</table>
+                    </prescriptionpayment>
+            </entities>
+            </prescriptionpayment_mysql4>
         </models>
         <helpers>
             <prescriptionpayment>
@@ -20,6 +29,12 @@
             <prescriptionpayment>
                 <class>Ce_PrescriptionPayment_Block</class>
             </prescriptionpayment>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_view_tab_info>Ce_PrescriptionPayment_Block_Adminhtml_Sales_Order_View_Tab_Prescriptions</sales_order_view_tab_info>
+                    <sales_order_view_info>Ce_PrescriptionPayment_Block_Adminhtml_Sales_Order_Prescriptionpayment</sales_order_view_info>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <resources>
             <prescriptionpayment_setup>
@@ -60,6 +75,15 @@
                     </prescriptionpayment>
                 </observers>
             </controller_action_predispatch_checkout_cart_index>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <prescriptionpayment>
+                        <type>singleton</type>
+                        <class>Ce_PrescriptionPayment_Model_Observer</class>
+                        <method>saveUploadedPrescriptions</method>
+                    </prescriptionpayment>
+                </observers>
+            </checkout_onepage_controller_success_action>
         </events>
     </global>
     <adminhtml>

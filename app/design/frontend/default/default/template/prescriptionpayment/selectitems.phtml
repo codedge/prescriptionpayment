@@ -36,9 +36,14 @@
             </ul>
         <?php endif; ?>
     </div>
+    <div class="block">
+        <p class="empty">
+            <?php echo $this->__('For the following articles it is possible to pay them by prescription') ?>.
+        </p>
+    </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('form_before') ?>
-    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+    <form id="prescriptionpayment-form" action="<?php echo $this->getUrl('checkout/onepage') ?>" method="post">
         <?php echo $this->getChildHtml('choosepayment') ?>
         <fieldset>
             <table id="shopping-cart-table" class="data-table cart-table">
@@ -102,7 +107,7 @@
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-    <div class="cart-collaterals">
+    <div class="cart-collaterals prescriptionpayment">
         <div class="col2-set">
             <div class="block block-prescriptionpayment hint">
                 <div class="block-title">
@@ -113,40 +118,64 @@
                         <strong>
                             <?php echo $this->__('Please send the prescriptions for the selected items to the following address') ?>:
                         </strong><br />
-                        <?php echo nl2br(Mage::getStoreConfig('general/store_information/address')); ?>
+                        <?php echo nl2br($this->getAddress()); ?>
                         <br /><br />
                         <?php echo $this->__('Delivery essentially only takes place after your prescriptions and payment is received') ?>.
                     </p>
                 </div>
             </div>
         </div>
+        <?php if($this->useUploader()) : ?>
+            <div class="upload-prescription totals">
+                <form id="pp-upload-form" name="pp-upload-form" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl('prescriptionpayment/items/upload')?>">
+                    <div class="block block-upload-prescriptions">
+                        <div class="block-title">
+                            <h3 class="left"><strong><?php echo $this->__('Upload prescriptions') ?></strong></h3>
+                            <?php if($this->getFileUploadMultiple()) : ?>
+                            <span class="right add">+</span>
+                            <?php endif ?>
+                            <div class="clearer"></div>
+                        </div>
+                        <div class="block-content">
+                            <p class="empty">
+                                <span class="fileLbl"><?php echo $this->__('File')?>:</span>&nbsp;<input type="file" name="<?php echo $this->getFileUploadFieldName(); ?>" />
+                                <button type="submit" title="Save"><span><?php echo $this->__('Submit')?></span></button><br />
+                                <span class="accepted-file-types">
+                                    <?php echo $this->__('Only the following file types are accepted: %s', $this->getAllowedFileTypes()); ?>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                // <![CDATA[
+                jQuery(document).ready(function() {
+                    // Submit form via ajax
+                    jQuery('#pp-upload-form').ajaxForm({
+                        success:    function() {
+                            jQuery('.block-upload-prescriptions .block-content .empty')
+                                .find('span.fileLbl:gt(0), input[type="file"]:gt(0)').remove();
+                            jQuery('.block-upload-prescriptions .block-content .empty')
+                                .find('input[name="<?php echo $this->getFileUploadFieldName(); ?>"]').val('');
+                        }
+                    });
+
+                    // Adding new input fields
+                    jQuery('.block-upload-prescriptions .add').click(function() {
+                        jQuery('<br />').insertBefore('#pp-upload-form button[type="submit"]');
+                        jQuery('<span />', {
+                            text: '<?php echo $this->__('File')?>:',
+                            class: 'fileLbl'
+                        }).insertBefore('#pp-upload-form button[type="submit"]');
+                        jQuery('<input>').attr({
+                            type: 'file',
+                            name: '<?php echo $this->getFileUploadFieldName(); ?>'
+                        }).insertBefore('#pp-upload-form button[type="submit"]');
+                    });
+                });
+                // ]]>
+            </script>
+        <?php endif ?>
     </div>
 </div>
-
-<script type="text/javascript">
-    if (typeof jQuery != 'undefined') {
-        jQuery(document).ready(function() {
-            // Check radio buttons after load
-            if(jQuery("input[name='prescriptionpayment_choose_payment']:checked").val() == 0) {
-                jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'none');
-            } else {
-                jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'block');
-            }
-
-            jQuery("input[name='prescriptionpayment_choose_payment']").click(function() {
-                if(jQuery(this).val() == 0) {
-                    jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'none');
-                } else {
-                    jQuery('#prescriptionpayment-form fieldset, .block-prescriptionpayment').css('display', 'block');
-                }
-            });
-
-            // Select all items
-            jQuery("button[name='select_all_prescription']").click(function() {
-                jQuery('#prescriptionpayment-form').find(':checkbox').each(function () {
-                    jQuery(this).prop('checked', 'checked');
-                });
-            });
-        });
-    }
-</script>

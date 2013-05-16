@@ -19,6 +19,12 @@
 
 class Ce_PrescriptionPayment_Block_Items extends Mage_Checkout_Block_Cart
 {
+    /**
+     * Name of the input field for file uploads
+     * Square brackets used for uploading of more than one file
+     * @var string
+     */
+    protected $_fileUploadName = 'file_upload';
 
     /**
      * Items for prescription payment
@@ -31,6 +37,25 @@ class Ce_PrescriptionPayment_Block_Items extends Mage_Checkout_Block_Cart
 
         return $items;
     }
+
+    /**
+     * Get the address where the prescription should be send to
+     * @return string
+     */
+    public function getAddress()
+    {
+        return Mage::getStoreConfig('general/store_information/address');
+    }
+
+
+    /**
+     * Get allowed file types
+     * @return string
+     */
+    public function getAllowedFileTypes()
+    {
+        return Mage::getSingleton('prescriptionpayment/prescriptionpayment')->getAllowedFileTypesAsText();
+    }
     
     /**
      * Check if customer wants to pay by prescription
@@ -39,5 +64,48 @@ class Ce_PrescriptionPayment_Block_Items extends Mage_Checkout_Block_Cart
     public function payByPrescription()
     {
         return Ce_PrescriptionPayment_Helper_Data::payByPrescription();
+    }
+
+    /**
+     * Check if upload shall be used
+     * @return boolean
+     */
+    public function useUploader()
+    {
+        return Mage::getSingleton('prescriptionpayment/prescriptionpayment')->useUploader();
+    }
+
+    /**
+     * Get the uploader path
+     * @return string
+     */
+    public function getUploaderPath()
+    {
+        return Mage::getSingleton('prescriptionpayment/prescriptionpayment')->getUploaderPath();
+    }
+
+    /**
+     * Get the name of the file upload field
+     * @param boolean $brackets Return name w/o brackets
+     * @return string
+     */
+    public function getFileUploadFieldName($brackets=true)
+    {
+        $name = $this->_fileUploadName;
+
+        if($this->getFileUploadMultiple() && $brackets === true)
+            $name = $name . '[]';
+
+        return $name;
+    }
+
+    /**
+     * Get if multiple files can be uploaded
+     * return boolean
+     */
+    public function getFileUploadMultiple()
+    {
+        return filter_var(Mage::getStoreConfig('payment/prescriptionpayment/uploader_multiple_files'),
+            FILTER_VALIDATE_BOOLEAN);
     }
 }

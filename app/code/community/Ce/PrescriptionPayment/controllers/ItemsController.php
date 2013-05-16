@@ -35,7 +35,7 @@ class Ce_PrescriptionPayment_ItemsController
 
     /**
      * Select the items which shall be paid by prescription
-     * @return this
+     * @return $this
      */
     public function selectAction()
     {
@@ -43,4 +43,74 @@ class Ce_PrescriptionPayment_ItemsController
         $this->renderLayout();
     }
 
+    /**
+     * Upload prescriptions
+     * @return void
+     */
+    public function uploadAction()
+    {
+        if ($this->getRequest()->isXmlHttpRequest()
+        && !empty($_FILES)
+        ) {
+            $type = Mage::getBlockSingleton('prescriptionpayment/items')->getFileUploadFieldName(false);
+
+            if(Mage::getBlockSingleton('prescriptionpayment/items')->getFileUploadMultiple()) {
+                // Multiple file upload
+                $reorderedFiles = $this->_diverseArray($_FILES[$type]);
+
+                foreach($reorderedFiles as $f) {
+                    $this->_uploadFiles($f, $f['name']);
+                }
+
+            } else {
+                // Single file upload
+                $this->_uploadFiles($type, $_FILES[$type]['name']);
+            }
+
+
+
+        }
+    }
+
+
+    protected function _uploadFiles($files, $fileName)
+    {
+        $path = Mage::getSingleton('prescriptionpayment/prescriptionpayment')->getUploaderPath();
+        $fTypesArr = Mage::getSingleton('prescriptionpayment/prescriptionpayment')->getAllowedFilesTypesAsArray();
+
+        try{
+            $uploader = new Varien_File_Uploader($files);
+            // Allows only files defined in backend
+            $uploader->setAllowedExtensions($fTypesArr);
+            // Can create uploader folder
+            $uploader->setAllowCreateFolders(true);
+            $uploader->setAllowRenameFiles(true);
+            $uploader->setFilesDispersion(true);
+            $uploader->save($path, $fileName);
+            $targetFilename = $uploader->getUploadedFileName();
+
+            // Add file to model
+            Mage::getSingleton('prescriptionpayment/prescriptionpayment')->addUploadedFile($targetFilename);
+
+            Mage::log("\n___" . 'File (' . $targetFilename . ') uploaded!' . "___\n");
+        }
+        catch (Exception $e)
+        {
+            Mage::log('Upload File: ' . $e->getCode() . ' : ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Reorder array for use with Magento uploader... grrrr :-(
+     * @param array $files
+     * @return array Reordered array
+     */
+    protected function _diverseArray($files)
+    {
+        $result = array();
+        foreach($files as $key1 => $value1)
+            foreach($value1 as $key2 => $value2)
+                $result[$key2][$key1] = $value2;
+        return $result;
+    }
 }

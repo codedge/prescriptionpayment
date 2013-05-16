@@ -8,11 +8,12 @@ other payment methods (f. ex. PayPal).
 
 ## Requirements
 * Magento CE 1.7
-* jQuery (>=1.6 should work, tested with 1.8 - for getting some UI improvements in the frontend)
+* jQuery not needed anymore, as it comes bundled with the extension, Version 1.8.3 incl. noConflict
 
 ## Install
 * Use modman: `modman clone git://github.com/codedge/prescriptionpayment.git`
 * Checkout the source: `git clone git://github.com/codedge/prescriptionpayment.git`
+* Install via [Magento Connect](http://www.magentocommerce.com/magento-connect/catalog/product/view/id/17761/)
 
 ## Getting started
 First you have to have a product attribute which tell the extension that some articles can be paid via description. Fill in this attribute code into the configuration of the extension.
