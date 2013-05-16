@@ -29,3 +29,11 @@ _The most important settings are_:
 After saving your configuration, the extension is ready to use.
 
 *NOTE: The extension comes with only an English and German version. If you can provide others, feel free to send me the translated CSV file or just ask to commit.*
+
+## Changelog
+
+2013-05-16, Version 0.1.0
+* Upload files
+* Choose single file uploader or multiple file upload
+* jQuery is bundled
+* Prepared for viewing file in admin
