@@ -17,11 +17,10 @@
  * @author     Holger Lösken <post@codedge.de>
  */
 
-class Ce_PrescriptionPayment_Model_Mysql4_Prescriptionpayment_Collection
-    extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Ce_PrescriptionPayment_Model_Resource_Prescriptionpayment extends Mage_Core_Model_Resource_Db_Abstract
 {
-    public function _construct()
+    protected function _construct()
     {
-        $this->_init('prescriptionpayment/prescriptionpayment');
+        $this->_init('prescriptionpayment/prescriptionpayment', 'id');
     }
 }

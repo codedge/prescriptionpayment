@@ -18,7 +18,7 @@
 */
 
 /**
- * Shopping cart template
+ * Choose items for prescription, based on shopping cart template
  *
  * @see Ce_PrescriptionPayment_Block_Items
  */
@@ -125,57 +125,6 @@
                 </div>
             </div>
         </div>
-        <?php if($this->useUploader()) : ?>
-            <div class="upload-prescription totals">
-                <form id="pp-upload-form" name="pp-upload-form" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl('prescriptionpayment/items/upload')?>">
-                    <div class="block block-upload-prescriptions">
-                        <div class="block-title">
-                            <h3 class="left"><strong><?php echo $this->__('Upload prescriptions') ?></strong></h3>
-                            <?php if($this->getFileUploadMultiple()) : ?>
-                            <span class="right add">+</span>
-                            <?php endif ?>
-                            <div class="clearer"></div>
-                        </div>
-                        <div class="block-content">
-                            <p class="empty">
-                                <span class="fileLbl"><?php echo $this->__('File')?>:</span>&nbsp;<input type="file" name="<?php echo $this->getFileUploadFieldName(); ?>" />
-                                <button type="submit" title="Save"><span><?php echo $this->__('Submit')?></span></button><br />
-                                <span class="accepted-file-types">
-                                    <?php echo $this->__('Only the following file types are accepted: %s', $this->getAllowedFileTypes()); ?>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <script type="text/javascript">
-                // <![CDATA[
-                jQuery(document).ready(function() {
-                    // Submit form via ajax
-                    jQuery('#pp-upload-form').ajaxForm({
-                        success:    function() {
-                            jQuery('.block-upload-prescriptions .block-content .empty')
-                                .find('span.fileLbl:gt(0), input[type="file"]:gt(0)').remove();
-                            jQuery('.block-upload-prescriptions .block-content .empty')
-                                .find('input[name="<?php echo $this->getFileUploadFieldName(); ?>"]').val('');
-                        }
-                    });
-
-                    // Adding new input fields
-                    jQuery('.block-upload-prescriptions .add').click(function() {
-                        jQuery('<br />').insertBefore('#pp-upload-form button[type="submit"]');
-                        jQuery('<span />', {
-                            text: '<?php echo $this->__('File')?>:',
-                            class: 'fileLbl'
-                        }).insertBefore('#pp-upload-form button[type="submit"]');
-                        jQuery('<input>').attr({
-                            type: 'file',
-                            name: '<?php echo $this->getFileUploadFieldName(); ?>'
-                        }).insertBefore('#pp-upload-form button[type="submit"]');
-                    });
-                });
-                // ]]>
-            </script>
-        <?php endif ?>
+        <?php echo $this->getChildHtml('uploader') ?>
     </div>
 </div>

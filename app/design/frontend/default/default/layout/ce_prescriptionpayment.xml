@@ -35,6 +35,7 @@
                     <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
                 </block>
                 <block type="prescriptionpayment/items" name="prescriptionpayment.choose.payment" as="choosepayment" template="prescriptionpayment/choose_payment.phtml" />
+                <block type="prescriptionpayment/items" name="prescriptionpayment.uploader" as="uploader" template="prescriptionpayment/selectitems/uploader.phtml" />
             </block>
         </reference>
     </prescriptionpayment_items_select>

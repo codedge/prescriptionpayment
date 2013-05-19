@@ -1,0 +1,85 @@
+<?php
+/**
+* Magento
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Open Software License (OSL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/osl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@magentocommerce.com so we can send you a copy immediately.
+*
+* @package    Ce_PrescriptionPayment
+* @copyright  Copyright (c) 2013 codedge (http://www.codedge.de)
+* @author     Holger Lösken <post@codedge.de>
+*/
+
+/**
+* Uploader template
+*
+* @see Ce_PrescriptionPayment_Block_Items
+*/
+?>
+
+<?php if($this->useUploader()) : ?>
+    <div class="upload-prescription totals">
+        <form id="pp-upload-form" name="pp-upload-form" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl('prescriptionpayment/items/upload')?>">
+            <div class="block block-upload-prescriptions">
+                <div class="block-title">
+                    <h3 class="left"><strong><?php echo $this->__('Upload prescriptions') ?></strong></h3>
+                    <?php if($this->getFileUploadMultiple()) : ?>
+                        <span class="right add">+</span>
+                    <?php endif ?>
+                    <div class="clearer"></div>
+                </div>
+                <div class="block-content">
+                    <p class="empty">
+                        <span class="fileLbl"><?php echo $this->__('File')?>:</span>&nbsp;<input type="file" name="<?php echo $this->getFileUploadFieldName(); ?>" />
+                        <button type="submit" title="Save"><span><?php echo $this->__('Submit')?></span></button><br />
+                        <span class="accepted-file-types">
+                            <?php echo $this->__('Only the following file types are accepted: %s', $this->getAllowedFileTypes()); ?>
+                        </span>
+                    </p>
+                    <p class="empty files-uploaded"></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(document).ready(function() {
+            // Submit form via ajax
+            jQuery('#pp-upload-form').ajaxForm({
+                success:    function() {
+                    jQuery('.block-upload-prescriptions .block-content .empty')
+                        .find('span.fileLbl:gt(0), input[type="file"]:gt(0)').remove();
+                    jQuery('.block-upload-prescriptions .block-content .empty')
+                        .find('input[name="<?php echo $this->getFileUploadFieldName(); ?>"]').val('');
+                },
+                complete: function(xhr) {
+                    var files = xhr.responseText.split(',');
+                    jQuery.each(files, function(k,l) {
+                        jQuery('.files-uploaded').append(l + '<br />');
+                    });
+                }
+            });
+
+            // Adding new input fields
+            jQuery('.block-upload-prescriptions .add').click(function() {
+                jQuery('<br />').insertBefore('#pp-upload-form button[type="submit"]');
+                jQuery('<span />', {
+                    text: '<?php echo $this->__('File')?>:',
+                    class: 'fileLbl'
+                }).insertBefore('#pp-upload-form button[type="submit"]');
+                jQuery('<input>').attr({
+                    type: 'file',
+                    name: '<?php echo $this->getFileUploadFieldName(); ?>'
+                }).insertBefore('#pp-upload-form button[type="submit"]');
+            });
+        });
+        // ]]>
+    </script>
+<?php endif ?>

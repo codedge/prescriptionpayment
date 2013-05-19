@@ -97,20 +97,28 @@ class Ce_PrescriptionPayment_Model_Observer
     /**
      * Save the uploaded prescriptions to database
      * @param Varien_Event_Observer $observer
-     * @return boolean|mixed If nothing to do, it fires false
+     * @return void
      */
     public function saveUploadedPrescriptions($observer)
     {
         if(Mage::getSingleton('prescriptionpayment/prescriptionpayment')->useUploader()) {
-            $model = Mage::getSingleton('prescriptionpayment/prescriptionpayment');
+            $model = Mage::getModel('prescriptionpayment/prescriptionpayment');
             $files = $model->getUploadedFiles();
 
+            // Getting order id via event observer
+            $orderId = $observer->getData('order_ids')[0];
+
             foreach($files as $file) {
-
+                $model->setFile($file);
+                $model->setOrderId($orderId);
+                $model->setCreatedTime(now());
+                $model->setUpdateTime(now());
+                $model->save();
             }
-        }
 
-        return false;
+            // Remove files from session
+            $model->clearUploadedFiles();
+        }
     }
 
 

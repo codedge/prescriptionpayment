@@ -2,23 +2,23 @@
 <config>
     <modules>
         <Ce_PrescriptionPayment>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Ce_PrescriptionPayment>
     </modules>
     <global>
         <models>
             <prescriptionpayment>
                 <class>Ce_PrescriptionPayment_Model</class>
-                <resourceModel>prescriptionpayment_mysql4</resourceModel>
+                <resourceModel>prescriptionpayment_resource</resourceModel>
             </prescriptionpayment>
-            <prescriptionpayment_mysql4>
-                <class>Ce_PrescriptionPayment_Model_Mysql4</class>
+            <prescriptionpayment_resource>
+                <class>Ce_PrescriptionPayment_Model_Resource</class>
                 <entities>
                     <prescriptionpayment>
                         <table>prescriptionpayment</table>
                     </prescriptionpayment>
-            </entities>
-            </prescriptionpayment_mysql4>
+                </entities>
+            </prescriptionpayment_resource>
         </models>
         <helpers>
             <prescriptionpayment>
@@ -131,18 +131,4 @@
             </updates>
         </layout> 
     </frontend>
-    <default>
-        <payment>
-            <prescriptionpayment>
-                <active>1</active>
-                <model>prescriptionpayment/prescriptionpayment</model>
-                <order_status>pending</order_status>
-                <title>Rezeptbezahlung</title>
-                <allowspecific>0</allowspecific>
-                <form_block_type>0</form_block_type>
-                <min_order_total>0</min_order_total>
-                <max_order_total>0</max_order_total>
-            </prescriptionpayment>
-         </payment>
-    </default>
 </config>

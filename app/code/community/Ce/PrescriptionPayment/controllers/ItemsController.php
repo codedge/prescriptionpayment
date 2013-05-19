@@ -45,7 +45,7 @@ class Ce_PrescriptionPayment_ItemsController
 
     /**
      * Upload prescriptions
-     * @return void
+     * @return string
      */
     public function uploadAction()
     {
@@ -57,18 +57,21 @@ class Ce_PrescriptionPayment_ItemsController
             if(Mage::getBlockSingleton('prescriptionpayment/items')->getFileUploadMultiple()) {
                 // Multiple file upload
                 $reorderedFiles = $this->_diverseArray($_FILES[$type]);
+                $fileNamesAsString = '';
 
                 foreach($reorderedFiles as $f) {
                     $this->_uploadFiles($f, $f['name']);
+                    $fileNamesAsString .= $f['name'] . ',';
                 }
+
+                echo $fileNamesAsString;
 
             } else {
                 // Single file upload
                 $this->_uploadFiles($type, $_FILES[$type]['name']);
+
+                echo $_FILES[$type]['name'];
             }
-
-
-
         }
     }
 
@@ -96,7 +99,7 @@ class Ce_PrescriptionPayment_ItemsController
         }
         catch (Exception $e)
         {
-            Mage::log('Upload File: ' . $e->getCode() . ' : ' . $e->getMessage());
+            Mage::log('ERROR: ' . $e->getCode() . ' : ' . $e->getMessage());
         }
     }
 

@@ -6,9 +6,9 @@ Use it preferably if you maintain a shop for medical things where it should be p
 It enables the shop owner to let the customer select which items shall be paid via a prescription. Those items value will be set to 0.00. All other items can be paid via
 other payment methods (f. ex. PayPal).
 
-## Requirements
+## Requirements & Facts
 * Magento CE 1.7
-* jQuery not needed anymore, as it comes bundled with the extension, Version 1.8.3 incl. noConflict
+* Current version of extension: 0.1.1
 
 ## Install
 * Use modman: `modman clone git://github.com/codedge/prescriptionpayment.git`
@@ -28,12 +28,16 @@ _The most important settings are_:
 
 After saving your configuration, the extension is ready to use.
 
-*NOTE: The extension comes with only an English and German version. If you can provide others, feel free to send me the translated CSV file or just ask to commit.*
+*NOTE: The extension comes with only an English and German version. If you can provide others, feel free to contribute.*
 
 ## Changelog
 
-2013-05-16, Version 0.1.0
-* Upload files
-* Choose single file uploader or multiple file upload
-* jQuery is bundled
-* Prepared for viewing file in admin
+See [Changelog](https://github.com/codedge/prescriptionpayment/blob/master/CHANGELOG.md).
+
+## Contribution
+Any contribution is highly appreciated. The best way to contribute code is to open a [pull request on GitHub](https://help.github.com/articles/using-pull-requests).
+
+## Developer
+Holger Lösken
+[http://www.codedege.de](http://www.codedge.de)
+[@cod2edge](https://twitter.com/cod2edge)

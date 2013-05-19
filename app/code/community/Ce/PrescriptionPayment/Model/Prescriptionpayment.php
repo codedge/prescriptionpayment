@@ -17,7 +17,7 @@
  * @author     Holger Lösken <post@codedge.de>
 */
 class Ce_PrescriptionPayment_Model_Prescriptionpayment
-    extends Mage_Payment_Model_Method_Cc
+    extends Mage_Core_Model_Abstract
 {
     /**
     * unique internal payment method identifier
@@ -63,18 +63,15 @@ class Ce_PrescriptionPayment_Model_Prescriptionpayment
      */
     protected $_allowedFileTypes;
 
-    /**
-     * Files that has been uploaded
-     * @var array()
-     */
-    protected $_filesUploaded;
 
     /**
      * Constructor of the class
      * Used to set the settings from the backend
      */
-    public function __construct()
+    protected function _construct()
     {
+        $this->_init('prescriptionpayment/prescriptionpayment');
+
         $this->_isEnabled = Mage::getStoreConfig('payment/prescriptionpayment/active');
         $this->_attributeCode = Mage::getStoreConfig('payment/prescriptionpayment/attribute_code');
         $this->_useConfigurableProductSetting = Mage::getStoreConfig('payment/prescriptionpayment/use_configurable_product');
@@ -190,21 +187,38 @@ class Ce_PrescriptionPayment_Model_Prescriptionpayment
     }
 
     /**
-     * Add an uploaded file to array
+     * Add an uploaded file to array and saves it in customer session
      * @param string filename
      * @return void
      */
     public function addUploadedFile($fileName)
     {
-        $this->_filesUploaded[] = $fileName;
+        $files = $this->getUploadedFiles();
+
+        if(null == $files || !is_array($files)) {
+            $files = array();
+        }
+
+        $files[] = $fileName;
+
+        Mage::getSingleton( 'customer/session' )->setData($this->_code . 'Files', $files);
     }
 
     /**
      * Get all files that have been uploaded
-     * @return array
+     * @return mixed
      */
     public function getUploadedFiles()
     {
-        return $this->_filesUploaded;
+        return Mage::getSingleton( 'customer/session' )->getData($this->_code . 'Files');
+    }
+
+    /**
+     * Clear the customer session from its file content
+     * @return void
+     */
+    public function clearUploadedFiles()
+    {
+        Mage::getSingleton( 'customer/session' )->setData($this->_code . 'Files', array());
     }
 }
