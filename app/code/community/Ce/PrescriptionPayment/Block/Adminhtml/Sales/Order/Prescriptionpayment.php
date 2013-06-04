@@ -27,9 +27,15 @@ class Ce_PrescriptionPayment_Block_Adminhtml_Sales_Order_Prescriptionpayment
 
     /**
      * Get the prescriptions uploaded for this order
+     *
+     * @return array
      */
     public function getPrescriptions()
     {
-        return "";
+        $files = Mage::getSingleton('prescriptionpayment/prescriptionpayment')
+            ->getCollection()
+            ->addFieldToFilter('order_id', $this->getOrder()->getId());
+
+        return $files;
     }
 }

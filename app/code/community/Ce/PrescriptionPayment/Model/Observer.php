@@ -114,6 +114,7 @@ class Ce_PrescriptionPayment_Model_Observer
                 $model->setCreatedTime(now());
                 $model->setUpdateTime(now());
                 $model->save();
+                $model->unsetData();
             }
 
             // Remove files from session

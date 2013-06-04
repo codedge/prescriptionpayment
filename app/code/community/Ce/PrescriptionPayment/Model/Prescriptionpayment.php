@@ -219,6 +219,6 @@ class Ce_PrescriptionPayment_Model_Prescriptionpayment
      */
     public function clearUploadedFiles()
     {
-        Mage::getSingleton( 'customer/session' )->setData($this->_code . 'Files', array());
+        Mage::getSingleton( 'customer/session' )->unsetData($this->_code . 'Files');
     }
 }

@@ -36,4 +36,17 @@ class Ce_PrescriptionPayment_Helper_Data extends Mage_Core_Helper_Abstract
         
         return false;
     }
+
+    /**
+     * Get the filename from a complete path
+     *
+     * @param $fileWithPath
+     * @return mixed
+     */
+    public function getFilenameFromPath($fileWithPath)
+    {
+        $arrMatch = preg_split('/\//', $fileWithPath);
+
+        return end($arrMatch);
+    }
 }

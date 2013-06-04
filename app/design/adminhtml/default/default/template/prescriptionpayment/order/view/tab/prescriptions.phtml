@@ -27,6 +27,19 @@
     </div>
     <fieldset>
         <?php echo Mage::helper('prescriptionpayment')->__('Uploaded files') ?>:
+        <table class="form-list" cellspacing="0">
+            <tbody>
+            <?php foreach($this->getPrescriptions() as $item): ?>
+                <tr>
+                    <td>
+                        <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . DS . 'prescriptionpayment' . $item->getFile() ?>" target="_blank">
+                            <?php echo Mage::helper('prescriptionpayment')->getFilenameFromPath($item->getFile()) ?>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+            </tbody>
+        </table>
     </fieldset>
 </div>
 <div class="clear"></div>
